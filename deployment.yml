@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-website
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apache-website
+  template:
+    metadata:
+      labels:
+        app: apache-website
+    spec:
+      containers:
+      - name: apache-website
+        image: challakumar241/apache-website:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-service
+spec:
+  selector:
+    app: apache-website
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
