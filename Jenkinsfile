@@ -15,8 +15,8 @@ pipeline {
             steps {
                 sh '''
                 docker build -t apache-website:v1 .
-                docker tag apache-website:v1 <your-dockerhub-username>/apache-website:v1
-                docker push <your-dockerhub-username>/apache-website:v1
+                docker tag apache-website:v1 challakumar241/apache-website:v1
+                docker push challakumar241/apache-website:v1
                 '''
             }
         }
