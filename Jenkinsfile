@@ -25,9 +25,10 @@ pipeline {
         }
         stage('Deploy to K8s') {
             steps {
-                sh 'kubectl apply -f deployment.yml'
+                sh 'kubectl --kubeconfig=/var/lib/jenkins/.kube/config apply -f deployment.yml'
             }
         }
     }
 }
+
 
