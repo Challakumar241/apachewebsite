@@ -13,11 +13,14 @@ pipeline {
         }
         stage('Docker Build & Push') {
             steps {
-                sh '''
-                docker build -t apache-website:v1 .
-                docker tag apache-website:v1 challakumar241/apache-website:v1
-                docker push challakumar241/apache-website:v1
-                '''
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh """
+                      echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                      docker build -t apache-website:v1 .
+                      docker tag apache-website:v1 $DOCKER_USER/apache-website:v1
+                      docker push $DOCKER_USER/apache-website:v1
+                    """
+                }
             }
         }
         stage('Deploy to K8s') {
@@ -27,3 +30,4 @@ pipeline {
         }
     }
 }
+
